@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ripple Glow Effect</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+        /* Full background image */
+        body {
+            background: url('shiva.jpg') no-repeat center center/cover;
+            position: relative;
+        }
+        /* Ripple circle */
+        .ripple {
+            position: absolute;
+            border: 2px solid gold;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            opacity: 0.8;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            animation: rippleEffect 0.8s ease-out forwards;
+        }
+        @keyframes rippleEffect {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(10); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        document.addEventListener('click', (e) => {
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            ripple.style.left = e.clientX + 'px';
+            ripple.style.top = e.clientY + 'px';
+            document.body.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 800);
+        });
+    </script>
+</body>
+</html>
