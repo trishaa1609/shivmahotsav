@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shivji Aarti Click</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .layer-wrapper {
+      position: relative;
+      width: 800px;
+      height: 600px;
+    }
+
+    .background-img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .transparent-img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      z-index: 1;
+      transition: filter 0.3s ease;
+      filter: drop-shadow(0 0 30px red); /* normal glow */
+    }
+
+    .transparent-img.glow-on-click {
+      filter: drop-shadow(0 0 80px red); /* intensified glow */
+    }
+  </style>
+</head>
+<body>
+  <div class="layer-wrapper">
+    <img src="back.jpg" alt="Background Image" class="background-img">
+    <img src="shiva2.png" alt="Shivji Foreground" class="transparent-img" id="shivji">
+  </div>
+
+  <audio id="aartiAudio" src="1.mp3" preload="auto"></audio>
+
+  <script>
+    const audio = document.getElementById("aartiAudio");
+    const img = document.getElementById("shivji");
+
+    document.addEventListener("mousedown", () => {
+      audio.currentTime = 0;
+      audio.play();
+      img.classList.add("glow-on-click");
+    });
+
+    document.addEventListener("mouseup", () => {
+      audio.pause();
+      audio.currentTime = 0;
+      img.classList.remove("glow-on-click");
+    });
+  </script>
+</body>
+</html>
