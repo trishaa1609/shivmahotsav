@@ -3,24 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>Shivji Aarti Click</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       margin: 0;
-      background-color: black;
+      background: black;
       height: 100vh;
-      width: 100%;
+      width: 100vw;
+      overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
+      font-family: sans-serif;
     }
-
-    .layer-wrapper {
-      position: relative;
-      width: 800px;
-      height: 600px;
-    }
-
     .background-img {
       position: absolute;
       width: 100%;
@@ -28,33 +23,39 @@
       object-fit: cover;
       z-index: 0;
     }
-
+    .logo {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      width: 120px;
+      height: auto;
+      z-index: 3;
+      opacity: 0.9;
+    }
     .transparent-img {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 500px;
-      z-index: 1;
+      width: 40vw;
+      max-width: 400px;
       transition: filter 0.3s ease;
+      z-index: 1;
       filter: drop-shadow(0 0 30px red);
     }
-
     .transparent-img.glow-on-click {
       filter: drop-shadow(0 0 80px red);
     }
-
     #aartiIcon {
       position: absolute;
-      width: 120px;
+      width: 80px;
       height: auto;
       pointer-events: none;
-      z-index: 2;
+      z-index: 5;
       filter: drop-shadow(0 0 20px gold);
       display: none;
+      transform: translate(-50%, -50%);
     }
-
-    /* Snowflakes */
     .snow {
       position: fixed;
       top: -10px;
@@ -64,9 +65,8 @@
       border-radius: 50%;
       opacity: 0.8;
       animation: fall linear forwards;
-      z-index: 3;
+      z-index: 4;
     }
-
     @keyframes fall {
       0% { transform: translateY(0); opacity: 1; }
       100% { transform: translateY(100vh); opacity: 0; }
@@ -74,12 +74,11 @@
   </style>
 </head>
 <body>
-  <div class="layer-wrapper">
-    <img src="back.jpg" alt="Background Image" class="background-img">
-    <img src="shiva2.png" alt="Shivji Foreground" class="transparent-img" id="shivji">
-    <img src="arti.png" id="aartiIcon" alt="Aarti Icon">
-  </div>
-
+  <img src="back.jpg" alt="Background Image" class="background-img">
+  <img src="omvvim.png" alt="Logo" class="logo">
+  <img src="shiva2.png" alt="Shivji Foreground" class="transparent-img" id="shivji">
+  <img src="arti.png" id="aartiIcon" alt="Aarti Icon">
+  
   <audio id="aartiAudio" src="1.mp3" preload="auto"></audio>
 
   <script>
@@ -87,18 +86,14 @@
     const img = document.getElementById("shivji");
     const aartiIcon = document.getElementById("aartiIcon");
 
-    let centerX = 0;
-    let centerY = 0;
-    let angle = 0;
-    let radius = 50; // size of the circle
-    let aartiInterval;
+    let centerX = 0, centerY = 0, angle = 0, radius = 50, aartiInterval;
 
     function startCircularMotion(x, y) {
       centerX = x;
       centerY = y;
       angle = 0;
       aartiInterval = setInterval(() => {
-        angle += 10; // speed of rotation
+        angle += 10;
         const rad = (angle * Math.PI) / 180;
         const offsetX = Math.cos(rad) * radius;
         const offsetY = Math.sin(rad) * radius;
@@ -106,12 +101,9 @@
         aartiIcon.style.top = centerY + offsetY + "px";
       }, 30);
     }
-
     function stopCircularMotion() {
       clearInterval(aartiInterval);
     }
-
-    // Snow generator
     function createSnow() {
       const snow = document.createElement("div");
       snow.classList.add("snow");
@@ -122,7 +114,7 @@
     }
     setInterval(createSnow, 100);
 
-    // Mouse hold
+    // Mouse Events
     document.addEventListener("mousedown", (e) => {
       audio.currentTime = 0;
       audio.play();
@@ -130,7 +122,6 @@
       aartiIcon.style.display = "block";
       startCircularMotion(e.clientX, e.clientY);
     });
-
     document.addEventListener("mouseup", () => {
       audio.pause();
       audio.currentTime = 0;
@@ -139,7 +130,7 @@
       stopCircularMotion();
     });
 
-    // Touch hold
+    // Touch Events (for phones)
     document.addEventListener("touchstart", (e) => {
       const touch = e.touches[0];
       audio.currentTime = 0;
@@ -148,7 +139,6 @@
       aartiIcon.style.display = "block";
       startCircularMotion(touch.clientX, touch.clientY);
     });
-
     document.addEventListener("touchend", () => {
       audio.pause();
       audio.currentTime = 0;
